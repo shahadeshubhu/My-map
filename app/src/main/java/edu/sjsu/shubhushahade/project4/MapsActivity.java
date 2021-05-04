@@ -73,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             values.put("longitude", point.longitude);
             values.put("zoom", mMap.getCameraPosition().zoom);
             insertMarker.execute(values);
-            Toast.makeText(getBaseContext(), "Marker added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Marker added", Toast.LENGTH_LONG).show();
         });
 
         mMap.setOnMapLongClickListener(point -> {
@@ -182,4 +182,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else
             Toast.makeText(context, "Unable to get location", Toast.LENGTH_LONG).show();
     }
+
+    /*
+    Loading all markers from database when restarting app pending
+     */
+
 }
