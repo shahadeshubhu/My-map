@@ -176,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            Toast.makeText(context, "Your Name is at \n" +
+            Toast.makeText(context, "Shubhu Shahade is at \n" +
                             "Lat " + latitude + "\nLong: " + longitude,
                     Toast.LENGTH_LONG).show();
         } else
