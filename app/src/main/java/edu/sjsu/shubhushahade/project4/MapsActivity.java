@@ -52,7 +52,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //LoaderManager.getInstance(this).restartLoader(0,  null, this);
         //FloatingActionButton uninstall = (FloatingActionButton) findViewById(R.id.uninstallBtn);
         //uninstall.setOnClickListener(this::onClick);
 
@@ -92,6 +91,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+   /*
+   Markers upon reopening not working properly
+    */
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
@@ -102,14 +104,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            // Retrieve data row by row
+            double latitude = LOCATION_UNIV.latitude;
+            double longitude = LOCATION_UNIV.longitude;
+            float zoom = 1;
+            for(int i = 0; i < data.getCount(); i++){
+                latitude = data.getDouble(data.getColumnIndex("latitude"));
+                longitude = data.getDouble(data.getColumnIndex("longitude"));
+                zoom = data.getFloat(data.getColumnIndex("zoom"));
+                LatLng marker = new LatLng(latitude, longitude);
+                mMap.addMarker(new MarkerOptions().position(marker));
+                data.moveToNext();
+            }
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
         }
-
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
     }
 
     private class insertLocation extends AsyncTask<ContentValues, Void, Void> {
@@ -166,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /*
-    Methods below are for getting current location
+    Methods below are used for getting current location
      */
 
     private boolean isLocationEnabled() {
@@ -211,9 +223,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else
             Toast.makeText(context, "Unable to get location", Toast.LENGTH_LONG).show();
     }
-
-    /*
-    Loading all markers from database when restarting app pending
-     */
-
 }
