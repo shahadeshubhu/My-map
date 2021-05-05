@@ -34,9 +34,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LoaderManager.LoaderCallbacks<Cursor>  {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private Uri uri = LocationProvider.CONTENT_URI;
     private GoogleMap mMap;
@@ -51,10 +53,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        //FloatingActionButton uninstall = (FloatingActionButton) findViewById(R.id.uninstallBtn);
-        //uninstall.setOnClickListener(this::onClick);
-
     }
 
     /**
@@ -155,32 +153,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(update);
     }
 
-
-    /*
-    Delete functionality works sometimes
-     */
     public void onClick(View v) {
         Intent delete = new Intent(Intent.ACTION_DELETE,
                 Uri.parse("package:" + getPackageName()));
         startActivity(delete);
     }
 
+    public void getLocation(View view){
+        GPSTracker tracker = new GPSTracker(this);
+        tracker.getLocation();
+    }
 
     /*
     Get current location not working
      */
 
+    /*
     public void getLocation(View view) {
         FusedLocationProviderClient provider = LocationServices.getFusedLocationProviderClient(context);
         if (!isLocationEnabled()) showSettingAlert();
         else if (!checkPermission()) requestPermission();
-        else provider.getLastLocation().addOnSuccessListener(this::onSuccess);
+        else provider.getLastLocation().addOnSuccessListener(this);
     }
 
     /*
     Methods below are used for getting current location
      */
 
+    /*
     private boolean isLocationEnabled() {
         LocationManager manager = (LocationManager)
                 context.getSystemService(Context.LOCATION_SERVICE);
@@ -223,4 +223,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else
             Toast.makeText(context, "Unable to get location", Toast.LENGTH_LONG).show();
     }
+     */
 }
