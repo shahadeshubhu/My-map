@@ -50,9 +50,6 @@ public class LocationsDB extends SQLiteOpenHelper {
                 null, null, null, null, null);
     }
 
-    /*
-    Not sure if this method is correct
-     */
     public int delete() {
         SQLiteDatabase database = getWritableDatabase();
         return database.delete(TABLE_NAME, null, null);

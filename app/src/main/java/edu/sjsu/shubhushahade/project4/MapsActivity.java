@@ -28,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -39,13 +40,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //FloatingActionButton uninstall = (FloatingActionButton) findViewById(R.id.uninstallBtn);
-        //uninstall.setOnClickListener(this::onClick);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        //FloatingActionButton uninstall = (FloatingActionButton) findViewById(R.id.uninstallBtn);
+        //uninstall.setOnClickListener(this::onClick);
 
     }
 
@@ -116,9 +117,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     /*
-    Delete app function not working
+    Delete functionaltiy works sometimes
      */
-    private void onClick(View v) {
+    public void onClick(View v) {
         Intent delete = new Intent(Intent.ACTION_DELETE,
                 Uri.parse("package:" + getPackageName()));
         startActivity(delete);
