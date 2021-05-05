@@ -1,7 +1,12 @@
 package edu.sjsu.shubhushahade.project4;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,6 +15,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -30,7 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LoaderManager.LoaderCallbacks<Cursor>  {
 
     private Uri uri = LocationProvider.CONTENT_URI;
     private GoogleMap mMap;
@@ -45,6 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //LoaderManager.getInstance(this).restartLoader(0,  null, this);
         //FloatingActionButton uninstall = (FloatingActionButton) findViewById(R.id.uninstallBtn);
         //uninstall.setOnClickListener(this::onClick);
 
@@ -84,6 +92,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        return new CursorLoader(this, LocationProvider.CONTENT_URI,
+                null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.moveToFirst()) {
+            // Retrieve data row by row
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+    }
+
     private class insertLocation extends AsyncTask<ContentValues, Void, Void> {
         @Override
         protected Void doInBackground(ContentValues... contentValues) {
@@ -117,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     /*
-    Delete functionaltiy works sometimes
+    Delete functionality works sometimes
      */
     public void onClick(View v) {
         Intent delete = new Intent(Intent.ACTION_DELETE,
@@ -125,8 +153,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(delete);
     }
 
+
     /*
-    Get current location also not working
+    Get current location not working
      */
 
     public void getLocation(View view) {
