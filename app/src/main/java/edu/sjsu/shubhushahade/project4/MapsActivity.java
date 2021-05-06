@@ -44,7 +44,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private final LatLng LOCATION_UNIV = new LatLng(37.335371, -121.881050);
     private final LatLng LOCATION_CS = new LatLng(37.333714, -121.881860);
-    //Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +55,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LoaderManager.getInstance(this).restartLoader(0,  null, this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.addMarker(new MarkerOptions().position(LOCATION_CS));
+        //mMap.addMarker(new MarkerOptions().position(LOCATION_CS));
 
         mMap.setOnMapClickListener(point -> {
             mMap.addMarker(new MarkerOptions().position(point));
@@ -90,9 +80,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-   /*
-   Markers upon reopening not working properly
-    */
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
@@ -164,65 +151,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GPSTracker tracker = new GPSTracker(this);
         tracker.getLocation();
     }
-
-    /*
-    Get current location not working
-     */
-
-    /*
-    public void getLocation(View view) {
-        FusedLocationProviderClient provider = LocationServices.getFusedLocationProviderClient(context);
-        if (!isLocationEnabled()) showSettingAlert();
-        else if (!checkPermission()) requestPermission();
-        else provider.getLastLocation().addOnSuccessListener(this);
-    }
-
-    /*
-    Methods below are used for getting current location
-     */
-
-    /*
-    private boolean isLocationEnabled() {
-        LocationManager manager = (LocationManager)
-                context.getSystemService(Context.LOCATION_SERVICE);
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
-    public void showSettingAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        alertDialog.setMessage("Please enable location service.");
-        alertDialog.setPositiveButton("Enable", (dialog, which) -> {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            context.startActivity(intent);
-        });
-        alertDialog.setNegativeButton("Cancel", (dialog, which) ->
-                dialog.cancel());
-        alertDialog.show();
-    }
-
-    private boolean checkPermission() {
-        int result1 = ActivityCompat.checkSelfPermission
-                (context, Manifest.permission.ACCESS_FINE_LOCATION);
-        int result2 = ActivityCompat.checkSelfPermission
-                (context, Manifest.permission.ACCESS_COARSE_LOCATION);
-        return result1 == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestPermission() {
-        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-    }
-
-    public void onSuccess(Location location) {
-        if (location != null) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            Toast.makeText(context, "Shubhu Shahade is at \n" +
-                            "Lat " + latitude + "\nLong: " + longitude,
-                    Toast.LENGTH_LONG).show();
-        } else
-            Toast.makeText(context, "Unable to get location", Toast.LENGTH_LONG).show();
-    }
-     */
 }
