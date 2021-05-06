@@ -44,7 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private final LatLng LOCATION_UNIV = new LatLng(37.335371, -121.881050);
     private final LatLng LOCATION_CS = new LatLng(37.333714, -121.881860);
-    Context context;
+    //Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        LoaderManager.getInstance(this).restartLoader(0,  null, this);
     }
 
     /**
